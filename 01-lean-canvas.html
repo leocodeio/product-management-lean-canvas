@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -18,8 +18,8 @@
       }
 
       body {
-        font-family:
-          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
         background-color: #f8f9fa;
         color: #212529;
         line-height: 1.6;
@@ -1172,24 +1172,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Footer -->
-      <footer class="footer">
-        <div class="footer-credits">
-          <span>Made with</span>
-          <i class="fas fa-heart heart"></i>
-          <span>by <strong>Sonnet 4</strong></span>
-          <span>•</span>
-          <span
-            >Prompted, debugged and improvised by <strong>Harsha</strong></span
-          >
-          <span>•</span>
-          <span
-            >Canvas inspiration from
-            <strong>Ash Maurya's</strong> template</span
-          >
-        </div>
-      </footer>
     </div>
 
     <!-- Help Popup -->
@@ -1582,13 +1564,13 @@
       function getCanvasData() {
         // Get content areas using querySelectorAll for multiple content areas
         const problemContents = document.querySelectorAll(
-          ".canvas-box.problem .content",
+          ".canvas-box.problem .content"
         );
         const uvpContents = document.querySelectorAll(
-          ".canvas-box.uvp .content",
+          ".canvas-box.uvp .content"
         );
         const customerContents = document.querySelectorAll(
-          ".canvas-box.customer-segments .content",
+          ".canvas-box.customer-segments .content"
         );
 
         const data = {
@@ -1667,7 +1649,7 @@
           document.querySelector('input[placeholder="Startup Name"]').value =
             data.metadata.designedFor || "";
           document.querySelector(
-            'input[placeholder="Name1, Name2, ..."]',
+            'input[placeholder="Name1, Name2, ..."]'
           ).value = data.metadata.designedBy || "";
           document.querySelector('input[type="date"]').value =
             data.metadata.date || "";
@@ -1681,7 +1663,7 @@
 
           if (sections.problem) {
             const problemContents = document.querySelectorAll(
-              ".canvas-box.problem .content",
+              ".canvas-box.problem .content"
             );
             if (problemContents[0])
               problemContents[0].innerHTML = sections.problem.content || "";
@@ -1697,7 +1679,7 @@
 
           if (sections.uniqueValueProposition) {
             const uvpContents = document.querySelectorAll(
-              ".canvas-box.uvp .content",
+              ".canvas-box.uvp .content"
             );
             if (uvpContents[0])
               uvpContents[0].innerHTML =
@@ -1709,13 +1691,13 @@
 
           if (sections.unfairAdvantage) {
             document.querySelector(
-              ".canvas-box.unfair-advantage .content",
+              ".canvas-box.unfair-advantage .content"
             ).innerHTML = sections.unfairAdvantage.content || "";
           }
 
           if (sections.customerSegments) {
             const customerContents = document.querySelectorAll(
-              ".canvas-box.customer-segments .content",
+              ".canvas-box.customer-segments .content"
             );
             if (customerContents[0])
               customerContents[0].innerHTML =
@@ -1727,7 +1709,7 @@
 
           if (sections.keyMetrics) {
             document.querySelector(
-              ".canvas-box.key-metrics .content",
+              ".canvas-box.key-metrics .content"
             ).innerHTML = sections.keyMetrics.content || "";
           }
 
@@ -1738,13 +1720,13 @@
 
           if (sections.costStructure) {
             document.querySelector(
-              ".canvas-box.cost-structure .content",
+              ".canvas-box.cost-structure .content"
             ).innerHTML = sections.costStructure.content || "";
           }
 
           if (sections.revenueStreams) {
             document.querySelector(
-              ".canvas-box.revenue-streams .content",
+              ".canvas-box.revenue-streams .content"
             ).innerHTML = sections.revenueStreams.content || "";
           }
         }
@@ -1772,7 +1754,7 @@
             useCORS: true,
             allowTaint: true,
             backgroundColor: "#ffffff",
-          },
+          }
         );
 
         const imgData = canvas.toDataURL("image/png");
@@ -1826,7 +1808,7 @@
             // Validate the data structure
             if (!data.sections || !data.metadata) {
               throw new Error(
-                "Invalid file format: Missing required sections or metadata",
+                "Invalid file format: Missing required sections or metadata"
               );
             }
 
