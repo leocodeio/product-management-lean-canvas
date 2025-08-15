@@ -44,6 +44,7 @@
       .canvas-header {
         background: #fff;
         padding: 30px;
+        padding-top: 70px;
         border-bottom: 1px solid #e9ecef;
         position: relative;
       }
@@ -78,10 +79,10 @@
         gap: 10px;
       }
 
-      .help-btn {
+      .help-btn,
+      .github-btn {
         position: absolute;
-        top: 65px;
-        right: 20px;
+        top: 20px;
         background: #007bff;
         color: white;
         border: none;
@@ -95,6 +96,17 @@
         gap: 6px;
         transition: all 0.2s ease;
         box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
+        text-decoration: none;
+      }
+
+      .help-btn {
+        right: 20px;
+      }
+
+      .github-btn {
+        right: 140px;
+        background: #24292e;
+        box-shadow: 0 2px 4px rgba(36, 41, 46, 0.2);
       }
 
       .canvas-header h1 {
@@ -107,10 +119,32 @@
         gap: 10px;
       }
 
-      .help-btn {
+      .help-btn:hover {
+        background: #0056b3;
+        box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        transform: translateY(-1px);
+      }
+
+      .github-btn:hover {
+        background: #1a1e22;
+        box-shadow: 0 4px 8px rgba(36, 41, 46, 0.3);
+        transform: translateY(-1px);
+      }
+
+      .canvas-header h1 {
+        font-size: 24px;
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .help-btn,
+      .github-btn {
         position: absolute;
         top: 20px;
-        right: 20px;
         background: #007bff;
         color: white;
         border: none;
@@ -124,11 +158,28 @@
         gap: 6px;
         transition: all 0.2s ease;
         box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
+        text-decoration: none;
+      }
+
+      .help-btn {
+        right: 20px;
+      }
+
+      .github-btn {
+        right: 150px;
+        background: #24292e;
+        box-shadow: 0 2px 4px rgba(36, 41, 46, 0.2);
       }
 
       .help-btn:hover {
         background: #0056b3;
         box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        transform: translateY(-1px);
+      }
+
+      .github-btn:hover {
+        background: #1a1e22;
+        box-shadow: 0 4px 8px rgba(36, 41, 46, 0.3);
         transform: translateY(-1px);
       }
 
@@ -823,10 +874,18 @@
           gap: 15px;
         }
 
-        .help-btn {
+        .help-btn,
+        .github-btn {
           position: static;
+          margin: 5px;
+          align-self: center;
+        }
+
+        .header-buttons {
+          display: flex;
+          gap: 10px;
+          justify-content: center;
           margin: 10px 0;
-          align-self: flex-start;
         }
 
         .canvas-header {
@@ -949,12 +1008,20 @@
           text-align: center;
         }
 
-        .help-btn {
+        .help-btn,
+        .github-btn {
           position: static;
-          margin: 10px 0;
+          margin: 5px;
           padding: 8px 12px;
           font-size: 12px;
-          align-self: center;
+        }
+
+        .header-buttons {
+          display: flex;
+          gap: 8px;
+          justify-content: center;
+          margin: 10px 0;
+          flex-wrap: wrap;
         }
 
         .help-content {
@@ -1068,6 +1135,7 @@
       @media (max-width: 768px) {
         .toolbar-btn,
         .help-btn,
+        .github-btn,
         .dropdown-content button {
           min-height: 44px;
           min-width: 44px;
@@ -1227,10 +1295,16 @@
           >
         </div>
 
-        <button class="help-btn" onclick="showHelpPopup()">
-          <i class="fas fa-question-circle"></i>
-          How to Use
-        </button>
+        <div class="header-buttons">
+          <button class="github-btn" onclick="window.open('https://github.com/leocodeio/product-management-lean-canvas/', '_blank')">
+            <i class="fab fa-github"></i>
+            Star
+          </button>
+          <button class="help-btn" onclick="showHelpPopup()">
+            <i class="fas fa-question-circle"></i>
+            How to Use
+          </button>
+        </div>
         <h1><i class="fas fa-chart-line"></i> The Lean Canvas</h1>
         <div class="meta-fields">
           <div class="field">
