@@ -1,0 +1,2014 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Lean Canvas</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background-color: #f8f9fa;
+        color: #212529;
+        line-height: 1.6;
+        margin: 0;
+        padding: 20px;
+      }
+
+      .main-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .canvas-header {
+        background: #fff;
+        padding: 30px;
+        border-bottom: 1px solid #e9ecef;
+        position: relative;
+      }
+
+      .header-credits {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #f1f3f4;
+        color: #6c757d;
+        font-size: 13px;
+      }
+
+      .header-credits .heart {
+        color: #e74c3c;
+        font-size: 14px;
+        margin: 0 4px;
+        animation: heartbeat 1.5s ease-in-out infinite;
+      }
+
+      .canvas-header h1 {
+        font-size: 24px;
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .help-btn {
+        position: absolute;
+        top: 65px;
+        right: 20px;
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
+      }
+
+      .canvas-header h1 {
+        font-size: 24px;
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .help-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
+      }
+
+      .help-btn:hover {
+        background: #0056b3;
+        box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        transform: translateY(-1px);
+      }
+
+      .help-popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .help-popup.show {
+        display: flex;
+      }
+
+      .help-content {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        max-width: 600px;
+        max-height: 80vh;
+        overflow-y: auto;
+        margin: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        position: relative;
+      }
+
+      .help-close {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #6c757d;
+        padding: 5px;
+        line-height: 1;
+      }
+
+      .help-close:hover {
+        color: #495057;
+      }
+
+      .help-content h2 {
+        color: #007bff;
+        margin-bottom: 20px;
+        font-size: 24px;
+        font-weight: 600;
+      }
+
+      .help-content h3 {
+        color: #495057;
+        margin: 20px 0 10px 0;
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      .help-content p {
+        color: #6c757d;
+        line-height: 1.6;
+        margin-bottom: 15px;
+      }
+
+      .help-content ul {
+        color: #6c757d;
+        margin-bottom: 15px;
+        padding-left: 20px;
+      }
+
+      .help-content li {
+        margin-bottom: 8px;
+        line-height: 1.5;
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+        margin: 20px 0;
+      }
+
+      .feature-item {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        border-left: 4px solid #007bff;
+      }
+
+      .feature-item h4 {
+        color: #495057;
+        margin-bottom: 8px;
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+      .feature-item p {
+        margin: 0;
+        font-size: 14px;
+      }
+
+      .canvas-header h1 i {
+        color: #007bff;
+        font-size: 22px;
+      }
+
+      .meta-fields {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 20px;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .field label {
+        font-weight: 500;
+        font-size: 13px;
+        color: #495057;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .field label i {
+        font-size: 12px;
+        color: #6c757d;
+      }
+
+      .field input {
+        padding: 12px 16px;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        font-size: 14px;
+        background: #fff;
+        transition: all 0.2s ease;
+      }
+
+      .field input:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
+      }
+
+      .formatting-toolbar {
+        background: #f8f9fa;
+        padding: 15px 30px;
+        border-bottom: 1px solid #e9ecef;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .toolbar-group {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        position: relative;
+      }
+
+      .toolbar-btn {
+        padding: 8px 10px;
+        border: 1px solid #dee2e6;
+        background: white;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: #495057;
+        font-size: 14px;
+      }
+
+      .toolbar-btn:hover {
+        background: #e9ecef;
+        border-color: #adb5bd;
+      }
+
+      .toolbar-btn.active {
+        background: #007bff;
+        border-color: #007bff;
+        color: white;
+      }
+
+      .font-size-select {
+        padding: 8px 12px;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        background: white;
+        font-size: 13px;
+        color: #495057;
+      }
+
+      .color-picker {
+        width: 36px;
+        height: 36px;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .lean-canvas-container {
+        background: white;
+        padding: 30px;
+      }
+
+      .top-section {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: 1fr 1fr;
+        gap: 1px;
+        margin-bottom: 1px;
+        height: 500px;
+        border: 2px solid #343a40;
+      }
+
+      .bottom-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1px;
+        height: 180px;
+        border: 2px solid #343a40;
+        border-top: none;
+      }
+
+      .canvas-box {
+        border: none;
+        border-right: 1px solid #343a40;
+        border-bottom: 1px solid #343a40;
+        padding: 16px;
+        background: white;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .canvas-box:last-child {
+        border-right: none;
+      }
+
+      .top-section .canvas-box:nth-child(5) {
+        border-right: none;
+      }
+
+      .top-section .canvas-box:nth-child(10) {
+        border-right: none;
+      }
+
+      /* Subtle color accents for each section */
+      .canvas-box.problem {
+        border-left: 3px solid #e74c3c;
+        background: linear-gradient(135deg, #fff 0%, #fef9f9 100%);
+      }
+
+      .canvas-box.solution {
+        border-left: 3px solid #2ecc71;
+        background: linear-gradient(135deg, #fff 0%, #f8fef9 100%);
+      }
+
+      .canvas-box.uvp {
+        border-left: 3px solid #f39c12;
+        background: linear-gradient(135deg, #fff 0%, #fefcf8 100%);
+      }
+
+      .canvas-box.unfair-advantage {
+        border-left: 3px solid #9b59b6;
+        background: linear-gradient(135deg, #fff 0%, #fcfaff 100%);
+      }
+
+      .canvas-box.customer-segments {
+        border-left: 3px solid #3498db;
+        background: linear-gradient(135deg, #fff 0%, #f8fcff 100%);
+      }
+
+      .canvas-box.existing-alternatives {
+        border-left: 3px solid #e67e22;
+        background: linear-gradient(135deg, #fff 0%, #fefaf8 100%);
+      }
+
+      .canvas-box.key-metrics {
+        border-left: 3px solid #1abc9c;
+        background: linear-gradient(135deg, #fff 0%, #f8fefd 100%);
+      }
+
+      .canvas-box.high-level-concept {
+        border-left: 3px solid #f1c40f;
+        background: linear-gradient(135deg, #fff 0%, #fefdf8 100%);
+      }
+
+      .canvas-box.channels {
+        border-left: 3px solid #34495e;
+        background: linear-gradient(135deg, #fff 0%, #fafbfb 100%);
+      }
+
+      .canvas-box.early-adopters {
+        border-left: 3px solid #16a085;
+        background: linear-gradient(135deg, #fff 0%, #f8fefd 100%);
+      }
+
+      .canvas-box.cost-structure {
+        border-left: 3px solid #c0392b;
+        background: linear-gradient(135deg, #fff 0%, #fef9f9 100%);
+      }
+
+      .canvas-box.revenue-streams {
+        border-left: 3px solid #27ae60;
+        background: linear-gradient(135deg, #fff 0%, #f8fef9 100%);
+      }
+
+      .canvas-box h3 {
+        font-size: 14px;
+        font-weight: 600;
+        color: #212529;
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      /* Color-coded section titles */
+      .canvas-box.problem h3 {
+        color: #e74c3c;
+      }
+      .canvas-box.solution h3 {
+        color: #2ecc71;
+      }
+      .canvas-box.uvp h3 {
+        color: #f39c12;
+      }
+      .canvas-box.unfair-advantage h3 {
+        color: #9b59b6;
+      }
+      .canvas-box.customer-segments h3 {
+        color: #3498db;
+      }
+      .canvas-box.existing-alternatives h3 {
+        color: #e67e22;
+      }
+      .canvas-box.key-metrics h3 {
+        color: #1abc9c;
+      }
+      .canvas-box.high-level-concept h3 {
+        color: #f1c40f;
+      }
+      .canvas-box.channels h3 {
+        color: #34495e;
+      }
+      .canvas-box.early-adopters h3 {
+        color: #16a085;
+      }
+      .canvas-box.cost-structure h3 {
+        color: #c0392b;
+      }
+      .canvas-box.revenue-streams h3 {
+        color: #27ae60;
+      }
+
+      .canvas-box .description {
+        font-size: 11px;
+        color: #6c757d;
+        margin-bottom: 12px;
+        font-style: italic;
+        line-height: 1.4;
+      }
+
+      .content {
+        flex: 1;
+        min-height: 0;
+        padding: 8px;
+        border: none;
+        background: transparent;
+        font-size: 13px;
+        line-height: 1.5;
+        cursor: text;
+        resize: none;
+        outline: none;
+      }
+
+      .content:focus {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 3px;
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Subtle focus colors matching section themes */
+      .canvas-box.problem .content:focus {
+        background: rgba(231, 76, 60, 0.05);
+        box-shadow: inset 0 0 0 1px rgba(231, 76, 60, 0.2);
+      }
+      .canvas-box.solution .content:focus {
+        background: rgba(46, 204, 113, 0.05);
+        box-shadow: inset 0 0 0 1px rgba(46, 204, 113, 0.2);
+      }
+      .canvas-box.uvp .content:focus {
+        background: rgba(243, 156, 18, 0.05);
+        box-shadow: inset 0 0 0 1px rgba(243, 156, 18, 0.2);
+      }
+      .canvas-box.unfair-advantage .content:focus {
+        background: rgba(155, 89, 182, 0.05);
+        box-shadow: inset 0 0 0 1px rgba(155, 89, 182, 0.2);
+      }
+      .canvas-box.customer-segments .content:focus {
+        background: rgba(52, 152, 219, 0.05);
+        box-shadow: inset 0 0 0 1px rgba(52, 152, 219, 0.2);
+      }
+      .canvas-box.existing-alternatives .content:focus {
+        background: rgba(230, 126, 34, 0.05);
+        box-shadow: inset 0 0 0 1px rgba(230, 126, 34, 0.2);
+      }
+      .canvas-box.key-metrics .content:focus {
+        background: rgba(26, 188, 156, 0.05);
+        box-shadow: inset 0 0 0 1px rgba(26, 188, 156, 0.2);
+      }
+      .canvas-box.high-level-concept .content:focus {
+        background: rgba(241, 196, 15, 0.05);
+        box-shadow: inset 0 0 0 1px rgba(241, 196, 15, 0.2);
+      }
+      .canvas-box.channels .content:focus {
+        background: rgba(52, 73, 94, 0.05);
+        box-shadow: inset 0 0 0 1px rgba(52, 73, 94, 0.2);
+      }
+      .canvas-box.early-adopters .content:focus {
+        background: rgba(22, 160, 133, 0.05);
+        box-shadow: inset 0 0 0 1px rgba(22, 160, 133, 0.2);
+      }
+      .canvas-box.cost-structure .content:focus {
+        background: rgba(192, 57, 43, 0.05);
+        box-shadow: inset 0 0 0 1px rgba(192, 57, 43, 0.2);
+      }
+      .canvas-box.revenue-streams .content:focus {
+        background: rgba(39, 174, 96, 0.05);
+        box-shadow: inset 0 0 0 1px rgba(39, 174, 96, 0.2);
+      }
+
+      .content:empty::before {
+        content: "Click to start writing...";
+        color: #adb5bd;
+        font-style: italic;
+      }
+
+      .file-input {
+        display: none;
+      }
+
+      .download-menu {
+        position: relative;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        min-width: 160px;
+        margin-top: 4px;
+      }
+
+      .dropdown-content.show {
+        display: block;
+      }
+
+      .dropdown-content button {
+        width: 100%;
+        padding: 12px 16px;
+        border: none;
+        background: none;
+        text-align: left;
+        cursor: pointer;
+        font-size: 14px;
+        color: #374151;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .dropdown-content button:hover {
+        background: #f9fafb;
+      }
+
+      .dropdown-content button:first-child {
+        border-radius: 7px 7px 0 0;
+      }
+
+      .dropdown-content button:last-child {
+        border-radius: 0 0 7px 7px;
+      }
+
+      .lean-canvas-container {
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        border: 1px solid #e5e7eb;
+      }
+
+      .top-section {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: 1fr 1fr;
+        gap: 2px;
+        margin-bottom: 2px;
+        height: 600px;
+      }
+
+      .bottom-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2px;
+        height: 200px;
+      }
+
+      .canvas-box {
+        border: 1px solid #999;
+        border-radius: 0;
+        padding: 12px;
+        background: white;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .canvas-box:hover {
+        border-color: #666;
+      }
+
+      .canvas-box.problem,
+      .canvas-box.solution,
+      .canvas-box.uvp,
+      .canvas-box.unfair-advantage,
+      .canvas-box.customer-segments,
+      .canvas-box.existing-alternatives,
+      .canvas-box.key-metrics,
+      .canvas-box.high-level-concept,
+      .canvas-box.channels,
+      .canvas-box.early-adopters,
+      .canvas-box.cost-structure,
+      .canvas-box.revenue-streams {
+        border-left: 1px solid #999;
+      }
+
+      .section-counter {
+        display: none;
+      }
+
+      .canvas-box h3 {
+        font-size: 14px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .canvas-box .icon {
+        display: none;
+      }
+
+      .canvas-box .description {
+        font-size: 11px;
+        color: #666;
+        margin-bottom: 8px;
+        font-style: italic;
+      }
+
+      .section-divider {
+        height: 1px;
+        background: #ccc;
+        margin: 12px 0;
+      }
+
+      .content {
+        flex: 1;
+        min-height: 60px;
+        padding: 4px;
+        border: 2px solid #cfcfcf;
+        border-radius: 10px;
+        background: transparent;
+        font-size: 13px;
+        line-height: 1.4;
+        cursor: text;
+      }
+
+      .content:focus {
+        outline: 1px solid #3b82f6;
+        background: white;
+        box-shadow: none;
+      }
+
+      .content:empty::before {
+        content: "Click to start writing...";
+        color: #999;
+        font-style: italic;
+      }
+
+      @media (max-width: 1024px) {
+        .main-container {
+          margin: 10px;
+          border-radius: 6px;
+        }
+
+        .canvas-header,
+        .lean-canvas-container {
+          padding: 20px;
+        }
+
+        .top-section {
+          height: 400px;
+        }
+
+        .bottom-section {
+          height: 150px;
+        }
+
+        .formatting-toolbar {
+          padding: 12px 20px;
+          gap: 8px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        body {
+          padding: 10px;
+        }
+
+        .main-container {
+          margin: 0;
+        }
+
+        .top-section {
+          grid-template-columns: 1fr;
+          grid-template-rows: repeat(10, 1fr);
+          height: auto;
+          min-height: 800px;
+        }
+
+        .bottom-section {
+          grid-template-columns: 1fr;
+          grid-template-rows: 1fr 1fr;
+          height: auto;
+          min-height: 300px;
+        }
+
+        .canvas-box {
+          min-height: 80px;
+          border-right: none;
+        }
+
+        .meta-fields {
+          grid-template-columns: 1fr;
+          gap: 15px;
+        }
+
+        .formatting-toolbar {
+          justify-content: center;
+          padding: 15px;
+        }
+
+        .toolbar-group {
+          flex-wrap: wrap;
+        }
+
+        .canvas-header h1 {
+          font-size: 20px;
+        }
+
+        .header-credits {
+          flex-direction: column;
+          gap: 4px;
+          font-size: 12px;
+        }
+
+        .help-btn {
+          top: 80px;
+          right: 15px;
+          padding: 8px 12px;
+          font-size: 13px;
+        }
+      }
+
+      .footer {
+        background: #f8f9fa;
+        border-top: 1px solid #e9ecef;
+        padding: 20px 30px;
+        text-align: center;
+        color: #6c757d;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .footer .heart {
+        color: #e74c3c;
+        font-size: 16px;
+        margin: 0 4px;
+        animation: heartbeat 1.5s ease-in-out infinite;
+      }
+
+      .footer a {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .footer a:hover {
+        text-decoration: underline;
+      }
+
+      .footer-credits {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      @keyframes heartbeat {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .footer {
+          padding: 15px 20px;
+          font-size: 13px;
+        }
+
+        .footer-credits {
+          flex-direction: column;
+          gap: 4px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main-container">
+      <header class="canvas-header">
+        <!-- Credits at the top -->
+        <div class="header-credits">
+          <span>Made with</span>
+          <i class="fas fa-heart heart"></i>
+          <span>by <strong>Sonnet 4</strong></span>
+          <span>•</span>
+          <span
+            >Prompted, debugged and improvised by <strong>Harsha</strong></span
+          >
+          <span>•</span>
+          <span
+            >Canvas inspiration from
+            <strong>Ash Maurya's</strong> template</span
+          >
+        </div>
+
+        <button class="help-btn" onclick="showHelpPopup()">
+          <i class="fas fa-question-circle"></i>
+          How to Use
+        </button>
+        <h1><i class="fas fa-chart-line"></i> The Lean Canvas</h1>
+        <div class="meta-fields">
+          <div class="field">
+            <label><i class="fas fa-rocket"></i> Designed for:</label>
+            <input type="text" placeholder="Startup Name" />
+          </div>
+          <div class="field">
+            <label><i class="fas fa-users"></i> Designed by:</label>
+            <input type="text" placeholder="Name1, Name2, ..." />
+          </div>
+          <div class="field">
+            <label><i class="fas fa-calendar"></i> Date:</label>
+            <input type="date" />
+          </div>
+          <div class="field">
+            <label><i class="fas fa-code-branch"></i> Version:</label>
+            <input type="text" placeholder="X.Y" />
+          </div>
+        </div>
+      </header>
+
+      <!-- Formatting Toolbar -->
+      <div class="formatting-toolbar">
+        <div class="toolbar-group">
+          <button class="toolbar-btn" onclick="formatText('bold')" title="Bold">
+            <i class="fas fa-bold"></i>
+          </button>
+          <button
+            class="toolbar-btn"
+            onclick="formatText('italic')"
+            title="Italic"
+          >
+            <i class="fas fa-italic"></i>
+          </button>
+          <button
+            class="toolbar-btn"
+            onclick="formatText('underline')"
+            title="Underline"
+          >
+            <i class="fas fa-underline"></i>
+          </button>
+        </div>
+
+        <div class="toolbar-group">
+          <select
+            class="font-size-select"
+            onchange="changeFontSize(this.value)"
+          >
+            <option value="10px">10px</option>
+            <option value="12px">12px</option>
+            <option value="14px" selected>14px</option>
+            <option value="16px">16px</option>
+            <option value="18px">18px</option>
+            <option value="20px">20px</option>
+            <option value="24px">24px</option>
+            <option value="28px">28px</option>
+            <option value="32px">32px</option>
+          </select>
+          <button
+            class="toolbar-btn"
+            onclick="applySelectedFontSize()"
+            title="Apply Font Size"
+          >
+            <i class="fas fa-text-height"></i>
+          </button>
+        </div>
+
+        <div class="toolbar-group">
+          <input
+            type="color"
+            class="color-picker"
+            value="#374151"
+            onchange="changeTextColor(this.value)"
+            title="Text Color"
+            id="textColorPicker"
+          />
+          <input
+            type="color"
+            class="color-picker"
+            value="#ffffff"
+            onchange="changeBackgroundColor(this.value)"
+            title="Background Color"
+            id="bgColorPicker"
+          />
+          <button
+            class="toolbar-btn"
+            onclick="applySelectedTextColor()"
+            title="Apply Text Color"
+          >
+            <i class="fas fa-font"></i>
+          </button>
+        </div>
+
+        <div class="toolbar-group">
+          <button
+            class="toolbar-btn"
+            onclick="formatText('justifyLeft')"
+            title="Align Left"
+          >
+            <i class="fas fa-align-left"></i>
+          </button>
+          <button
+            class="toolbar-btn"
+            onclick="formatText('justifyCenter')"
+            title="Align Center"
+          >
+            <i class="fas fa-align-center"></i>
+          </button>
+          <button
+            class="toolbar-btn"
+            onclick="formatText('justifyRight')"
+            title="Align Right"
+          >
+            <i class="fas fa-align-right"></i>
+          </button>
+        </div>
+
+        <div class="toolbar-group">
+          <button
+            class="toolbar-btn"
+            onclick="formatText('insertUnorderedList')"
+            title="Bullet List"
+          >
+            <i class="fas fa-list-ul"></i>
+          </button>
+          <button
+            class="toolbar-btn"
+            onclick="formatText('insertOrderedList')"
+            title="Numbered List"
+          >
+            <i class="fas fa-list-ol"></i>
+          </button>
+        </div>
+
+        <div class="toolbar-group">
+          <button
+            class="toolbar-btn"
+            onclick="clearFormatting()"
+            title="Clear Formatting"
+          >
+            <i class="fas fa-eraser"></i>
+          </button>
+        </div>
+
+        <div class="toolbar-group">
+          <input
+            type="file"
+            id="uploadFile"
+            class="file-input"
+            accept=".json"
+            onchange="uploadJSONFile(event)"
+          />
+          <button
+            class="toolbar-btn"
+            onclick="document.getElementById('uploadFile').click()"
+            title="Upload JSON File"
+          >
+            <i class="fas fa-upload"></i>
+          </button>
+
+          <div class="download-menu">
+            <button
+              class="toolbar-btn"
+              onclick="toggleDownloadMenu()"
+              title="Download Canvas"
+            >
+              <i class="fas fa-download"></i>
+            </button>
+            <div id="downloadMenu" class="dropdown-content">
+              <button onclick="downloadAsPDF()">
+                <i class="fas fa-file-pdf"></i> Download PDF
+              </button>
+              <button onclick="downloadAsJSON()">
+                <i class="fas fa-file-code"></i> Download JSON
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lean-canvas-container">
+        <div class="top-section">
+          <!-- First Row -->
+          <div class="canvas-box problem">
+            <h3>Problem</h3>
+            <div class="description">Top 3 problems</div>
+            <div class="content" contenteditable="true"></div>
+          </div>
+
+          <div class="canvas-box solution">
+            <h3>Solution</h3>
+            <div class="description">Top 3 features</div>
+            <div class="content" contenteditable="true"></div>
+          </div>
+
+          <div class="canvas-box uvp">
+            <h3>Unique Value Prop.</h3>
+            <div class="description">
+              Single, clear and compelling message that states why you are
+              different and worth buying.
+            </div>
+            <div class="content" contenteditable="true"></div>
+          </div>
+
+          <div class="canvas-box unfair-advantage">
+            <h3>Unfair Advantage</h3>
+            <div class="description">Can't be easily copied or bought.</div>
+            <div class="content" contenteditable="true"></div>
+          </div>
+
+          <div class="canvas-box customer-segments">
+            <h3>Customer Segments</h3>
+            <div class="description">Target Customers</div>
+            <div class="content" contenteditable="true"></div>
+          </div>
+
+          <!-- Second Row -->
+          <div class="canvas-box existing-alternatives">
+            <h3>Existing Alternatives</h3>
+            <div class="description">
+              List how these problems are solved today.
+            </div>
+            <div class="content" contenteditable="true"></div>
+          </div>
+
+          <div class="canvas-box key-metrics">
+            <h3>Key Metrics</h3>
+            <div class="description">Key activities you measure</div>
+            <div class="content" contenteditable="true"></div>
+          </div>
+
+          <div class="canvas-box high-level-concept">
+            <h3>High-Level Concept</h3>
+            <div class="description">
+              List your X for Y analogy (e.g. YouTube = Flickr for videos)
+            </div>
+            <div class="content" contenteditable="true"></div>
+          </div>
+
+          <div class="canvas-box channels">
+            <h3>Channels</h3>
+            <div class="description">Path to customers</div>
+            <div class="content" contenteditable="true"></div>
+          </div>
+
+          <div class="canvas-box early-adopters">
+            <h3>Early Adopters</h3>
+            <div class="description">
+              List the characteristics of your ideal customers.
+            </div>
+            <div class="content" contenteditable="true"></div>
+          </div>
+        </div>
+
+        <div class="bottom-section">
+          <div class="canvas-box cost-structure">
+            <h3>Cost Structure</h3>
+            <div class="description">
+              List your fixed and variable costs. Customer acquisition costs,
+              Distribution costs, Hosting, People, Etc.
+            </div>
+            <div class="content" contenteditable="true"></div>
+          </div>
+
+          <div class="canvas-box revenue-streams">
+            <h3>Revenue Streams</h3>
+            <div class="description">
+              List your sources of revenue. Revenue Model, Life Time Value,
+              Revenue, Gross Margin
+            </div>
+            <div class="content" contenteditable="true"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <div class="footer-credits">
+          <span>Made with</span>
+          <i class="fas fa-heart heart"></i>
+          <span>by <strong>Sonnet 4</strong></span>
+          <span>•</span>
+          <span
+            >Prompted, debugged and improvised by <strong>Harsha</strong></span
+          >
+          <span>•</span>
+          <span
+            >Canvas inspiration from
+            <strong>Ash Maurya's</strong> template</span
+          >
+        </div>
+      </footer>
+    </div>
+
+    <!-- Help Popup -->
+    <div id="helpPopup" class="help-popup">
+      <div class="help-content">
+        <button class="help-close" onclick="hideHelpPopup()">&times;</button>
+        <h2><i class="fas fa-lightbulb"></i> How to Use the Lean Canvas</h2>
+
+        <h3>Import & Export</h3>
+        <p>
+          The Lean Canvas supports multiple ways to save and share your work:
+        </p>
+
+        <ul>
+          <li>
+            <strong>Export as PDF:</strong> Click the download button
+            <i class="fas fa-download"></i> in the toolbar and select "Download
+            PDF" to save a high-quality PDF version of your canvas
+          </li>
+          <li>
+            <strong>Export as JSON:</strong> Select "Download JSON" to save your
+            canvas data in a structured format that can be imported later
+          </li>
+          <li>
+            <strong>Import JSON:</strong> Click the upload button
+            <i class="fas fa-upload"></i> to load a previously saved JSON file
+          </li>
+          <li>
+            <strong>Auto-Save:</strong> Your work is automatically saved to your
+            browser every 2 seconds - no need to manually save!
+          </li>
+        </ul>
+
+        <h3>Getting Started</h3>
+        <p>
+          Fill out each section of the canvas by clicking on the text areas. The
+          canvas is designed to help you think through your business model
+          systematically:
+        </p>
+
+        <ul>
+          <li>
+            <strong>Start with Problem:</strong> Identify the top 3 problems
+            your customers face
+          </li>
+          <li>
+            <strong>Define your Solution:</strong> List your top 3 features that
+            solve these problems
+          </li>
+          <li>
+            <strong>Craft your UVP:</strong> Create a unique value proposition
+            that sets you apart
+          </li>
+          <li>
+            <strong>Identify Key Metrics:</strong> Define how you'll measure
+            success
+          </li>
+          <li>
+            <strong>Plan Revenue & Costs:</strong> Map out your financial model
+          </li>
+        </ul>
+
+        <h3>Features</h3>
+        <div class="feature-grid">
+          <div class="feature-item">
+            <h4><i class="fas fa-edit"></i> Rich Text Editing</h4>
+            <p>
+              Format text with bold, italic, underline, colors, and different
+              font sizes
+            </p>
+          </div>
+          <div class="feature-item">
+            <h4><i class="fas fa-save"></i> Auto-Save</h4>
+            <p>
+              Your work is automatically saved to your browser's local storage
+            </p>
+          </div>
+          <div class="feature-item">
+            <h4><i class="fas fa-mobile-alt"></i> Responsive Design</h4>
+            <p>Works perfectly on desktop, tablet, and mobile devices</p>
+          </div>
+          <div class="feature-item">
+            <h4><i class="fas fa-palette"></i> Visual Sections</h4>
+            <p>Color-coded sections help you navigate the canvas easily</p>
+          </div>
+        </div>
+
+        <h3>Tips</h3>
+        <ul>
+          <li>Use the formatting toolbar to make important points stand out</li>
+          <li>Save different versions using the JSON export feature</li>
+          <li>Review and iterate on your canvas regularly</li>
+          <li>Share the PDF version with stakeholders and team members</li>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      // Rich text formatting functions
+      function formatText(command) {
+        document.execCommand(command, false, null);
+        updateToolbarButtons();
+      }
+
+      function changeFontSize(size) {
+        const selection = window.getSelection();
+
+        if (selection.rangeCount > 0) {
+          if (!selection.isCollapsed) {
+            // Text is selected - wrap it in a span with the font size
+            try {
+              const range = selection.getRangeAt(0);
+              const selectedContent = range.extractContents();
+
+              // Create a span with the desired font size
+              const span = document.createElement("span");
+              span.style.fontSize = size;
+              span.appendChild(selectedContent);
+
+              // Insert the span back
+              range.insertNode(span);
+
+              // Select the span content
+              const newRange = document.createRange();
+              newRange.selectNodeContents(span);
+              selection.removeAllRanges();
+              selection.addRange(newRange);
+            } catch (error) {
+              console.log("Font size change failed, trying alternative method");
+              // Fallback to document.execCommand
+              document.execCommand("styleWithCSS", false, true);
+              document.execCommand("fontSize", false, size);
+              document.execCommand("styleWithCSS", false, false);
+            }
+          } else {
+            // No text selected - set up for future typing
+            const focusedElement = document.activeElement;
+            if (
+              focusedElement &&
+              focusedElement.classList.contains("content")
+            ) {
+              // Create a span for future text input
+              const span = document.createElement("span");
+              span.style.fontSize = size;
+              span.innerHTML = "&ZeroWidthSpace;"; // Invisible character
+
+              const range = selection.getRangeAt(0);
+              range.insertNode(span);
+
+              // Position cursor inside the span
+              range.setStart(span, 1);
+              range.collapse(true);
+              selection.removeAllRanges();
+              selection.addRange(range);
+            }
+          }
+        }
+      }
+
+      // Alternative font size method using CSS classes
+      function setFontSizeClass(element, size) {
+        // Remove existing font size classes
+        element.className = element.className.replace(/font-size-\d+px/g, "");
+
+        // Add new font size class
+        const sizeClass = `font-size-${size.replace("px", "")}px`;
+        element.classList.add(sizeClass);
+
+        // Add corresponding CSS rule if it doesn't exist
+        const styleId = "font-size-styles";
+        let styleSheet = document.getElementById(styleId);
+        if (!styleSheet) {
+          styleSheet = document.createElement("style");
+          styleSheet.id = styleId;
+          document.head.appendChild(styleSheet);
+        }
+
+        const rule = `.${sizeClass} { font-size: ${size} !important; }`;
+        if (styleSheet.innerHTML.indexOf(rule) === -1) {
+          styleSheet.innerHTML += rule;
+        }
+      }
+
+      function changeTextColor(color) {
+        // Store the selected color for future use
+        window.selectedTextColor = color;
+
+        // Apply color to selected text or current typing position
+        const selection = window.getSelection();
+        if (selection.rangeCount > 0 && !selection.isCollapsed) {
+          // Text is selected, apply color
+          document.execCommand("styleWithCSS", false, true);
+          document.execCommand("foreColor", false, color);
+          document.execCommand("styleWithCSS", false, false);
+        } else {
+          // No text selected, set up for future typing
+          const focusedElement = document.activeElement;
+          if (focusedElement && focusedElement.classList.contains("content")) {
+            // Insert a colored span at the current cursor position
+            document.execCommand("styleWithCSS", false, true);
+            document.execCommand("foreColor", false, color);
+            document.execCommand("styleWithCSS", false, false);
+          }
+        }
+      }
+
+      function applySelectedTextColor() {
+        const colorPicker = document.getElementById("textColorPicker");
+        const color = colorPicker.value;
+
+        const selection = window.getSelection();
+        if (selection.rangeCount > 0) {
+          if (selection.isCollapsed) {
+            // No text selected, prepare for typing
+            document.execCommand("styleWithCSS", false, true);
+            document.execCommand("foreColor", false, color);
+            document.execCommand("styleWithCSS", false, false);
+          } else {
+            // Text selected, apply color
+            document.execCommand("styleWithCSS", false, true);
+            document.execCommand("foreColor", false, color);
+            document.execCommand("styleWithCSS", false, false);
+          }
+        }
+
+        // Focus back to the content area
+        const focusedElement = document.activeElement;
+        if (focusedElement && focusedElement.classList.contains("content")) {
+          focusedElement.focus();
+        }
+      }
+
+      function applySelectedFontSize() {
+        const fontSizeSelect = document.querySelector(".font-size-select");
+        const size = fontSizeSelect.value;
+        changeFontSize(size);
+      }
+
+      function changeBackgroundColor(color) {
+        document.execCommand("backColor", false, color);
+      }
+
+      function clearFormatting() {
+        document.execCommand("removeFormat", false, null);
+      }
+
+      function updateToolbarButtons() {
+        const buttons = document.querySelectorAll(".toolbar-btn");
+        buttons.forEach((btn) => btn.classList.remove("active"));
+
+        if (document.queryCommandState("bold")) {
+          document
+            .querySelector("[onclick=\"formatText('bold')\"]")
+            .classList.add("active");
+        }
+        if (document.queryCommandState("italic")) {
+          document
+            .querySelector("[onclick=\"formatText('italic')\"]")
+            .classList.add("active");
+        }
+        if (document.queryCommandState("underline")) {
+          document
+            .querySelector("[onclick=\"formatText('underline')\"]")
+            .classList.add("active");
+        }
+      }
+
+      // Add event listeners to content areas
+      document.addEventListener("DOMContentLoaded", function () {
+        const contentAreas = document.querySelectorAll(".content");
+        contentAreas.forEach((area) => {
+          area.addEventListener("focus", function () {
+            this.style.minHeight = "100px";
+          });
+
+          area.addEventListener("blur", function () {
+            if (this.textContent.trim() === "") {
+              this.style.minHeight = "80px";
+            }
+          });
+
+          area.addEventListener("keyup", updateToolbarButtons);
+          area.addEventListener("mouseup", updateToolbarButtons);
+
+          // Add support for maintaining text color on typing
+          area.addEventListener("keypress", function (e) {
+            // Maintain the current text color when typing
+            const selection = window.getSelection();
+            if (selection.rangeCount > 0) {
+              const range = selection.getRangeAt(0);
+              const parentElement =
+                range.commonAncestorContainer.nodeType === 3
+                  ? range.commonAncestorContainer.parentElement
+                  : range.commonAncestorContainer;
+
+              // Check if we're inside a colored element
+              let coloredParent = parentElement;
+              while (
+                coloredParent &&
+                !coloredParent.classList.contains("content")
+              ) {
+                if (coloredParent.style.color) {
+                  break;
+                }
+                coloredParent = coloredParent.parentElement;
+              }
+            }
+          });
+        });
+
+        // Add placeholder text
+        contentAreas.forEach((area) => {
+          area.addEventListener("focus", function () {
+            if (this.textContent === "Click to start writing...") {
+              this.textContent = "";
+              this.style.color = "#374151";
+            }
+          });
+
+          area.addEventListener("blur", function () {
+            if (this.textContent.trim() === "") {
+              this.textContent = "Click to start writing...";
+              this.style.color = "#9ca3af";
+            }
+          });
+
+          // Initial placeholder
+          if (area.textContent.trim() === "") {
+            area.textContent = "Click to start writing...";
+            area.style.color = "#9ca3af";
+          }
+        });
+      });
+
+      // Auto-save functionality
+      let autoSaveTimeout;
+      function autoSave() {
+        clearTimeout(autoSaveTimeout);
+        autoSaveTimeout = setTimeout(() => {
+          const canvasData = {};
+          document.querySelectorAll(".content").forEach((content, index) => {
+            canvasData[`content_${index}`] = content.innerHTML;
+          });
+          document.querySelectorAll("input").forEach((input, index) => {
+            canvasData[`input_${index}`] = input.value;
+          });
+          localStorage.setItem("leanCanvasData", JSON.stringify(canvasData));
+          console.log("Auto-saved to localStorage");
+        }, 2000);
+      }
+
+      // Load saved data
+      function loadSavedData() {
+        const savedData = localStorage.getItem("leanCanvasData");
+        if (savedData) {
+          const canvasData = JSON.parse(savedData);
+          document.querySelectorAll(".content").forEach((content, index) => {
+            if (canvasData[`content_${index}`]) {
+              content.innerHTML = canvasData[`content_${index}`];
+              content.style.color = "#374151";
+            }
+          });
+          document.querySelectorAll("input").forEach((input, index) => {
+            if (canvasData[`input_${index}`]) {
+              input.value = canvasData[`input_${index}`];
+            }
+          });
+        }
+      }
+
+      // Add auto-save listeners
+      document.addEventListener("DOMContentLoaded", function () {
+        loadSavedData();
+        document.addEventListener("input", autoSave);
+      });
+
+      // Upload/Download functionality
+      function toggleDownloadMenu() {
+        const menu = document.getElementById("downloadMenu");
+        menu.classList.toggle("show");
+      }
+
+      // Close dropdown when clicking outside
+      document.addEventListener("click", function (event) {
+        if (!event.target.closest(".download-menu")) {
+          document.getElementById("downloadMenu").classList.remove("show");
+        }
+      });
+
+      function getCanvasData() {
+        // Get content areas using querySelectorAll for multiple content areas
+        const problemContents = document.querySelectorAll(
+          ".canvas-box.problem .content",
+        );
+        const uvpContents = document.querySelectorAll(
+          ".canvas-box.uvp .content",
+        );
+        const customerContents = document.querySelectorAll(
+          ".canvas-box.customer-segments .content",
+        );
+
+        const data = {
+          metadata: {
+            designedFor:
+              document.querySelector('input[placeholder="Startup Name"]')
+                .value || "",
+            designedBy:
+              document.querySelector('input[placeholder="Name1, Name2, ..."]')
+                .value || "",
+            date: document.querySelector('input[type="date"]').value || "",
+            version:
+              document.querySelector('input[placeholder="X.Y"]').value || "",
+          },
+          sections: {
+            problem: {
+              content: problemContents[0]
+                ? problemContents[0].innerHTML || ""
+                : "",
+              existingAlternatives: problemContents[1]
+                ? problemContents[1].innerHTML || ""
+                : "",
+            },
+            solution: {
+              content:
+                document.querySelector(".canvas-box.solution .content")
+                  .innerHTML || "",
+            },
+            uniqueValueProposition: {
+              content: uvpContents[0] ? uvpContents[0].innerHTML || "" : "",
+              highLevelConcept: uvpContents[1]
+                ? uvpContents[1].innerHTML || ""
+                : "",
+            },
+            unfairAdvantage: {
+              content:
+                document.querySelector(".canvas-box.unfair-advantage .content")
+                  .innerHTML || "",
+            },
+            customerSegments: {
+              content: customerContents[0]
+                ? customerContents[0].innerHTML || ""
+                : "",
+              earlyAdopters: customerContents[1]
+                ? customerContents[1].innerHTML || ""
+                : "",
+            },
+            keyMetrics: {
+              content:
+                document.querySelector(".canvas-box.key-metrics .content")
+                  .innerHTML || "",
+            },
+            channels: {
+              content:
+                document.querySelector(".canvas-box.channels .content")
+                  .innerHTML || "",
+            },
+            costStructure: {
+              content:
+                document.querySelector(".canvas-box.cost-structure .content")
+                  .innerHTML || "",
+            },
+            revenueStreams: {
+              content:
+                document.querySelector(".canvas-box.revenue-streams .content")
+                  .innerHTML || "",
+            },
+          },
+        };
+        return data;
+      }
+
+      function setCanvasData(data) {
+        // Set metadata
+        if (data.metadata) {
+          document.querySelector('input[placeholder="Startup Name"]').value =
+            data.metadata.designedFor || "";
+          document.querySelector(
+            'input[placeholder="Name1, Name2, ..."]',
+          ).value = data.metadata.designedBy || "";
+          document.querySelector('input[type="date"]').value =
+            data.metadata.date || "";
+          document.querySelector('input[placeholder="X.Y"]').value =
+            data.metadata.version || "";
+        }
+
+        // Set sections using querySelectorAll for multiple content areas
+        if (data.sections) {
+          const sections = data.sections;
+
+          if (sections.problem) {
+            const problemContents = document.querySelectorAll(
+              ".canvas-box.problem .content",
+            );
+            if (problemContents[0])
+              problemContents[0].innerHTML = sections.problem.content || "";
+            if (problemContents[1])
+              problemContents[1].innerHTML =
+                sections.problem.existingAlternatives || "";
+          }
+
+          if (sections.solution) {
+            document.querySelector(".canvas-box.solution .content").innerHTML =
+              sections.solution.content || "";
+          }
+
+          if (sections.uniqueValueProposition) {
+            const uvpContents = document.querySelectorAll(
+              ".canvas-box.uvp .content",
+            );
+            if (uvpContents[0])
+              uvpContents[0].innerHTML =
+                sections.uniqueValueProposition.content || "";
+            if (uvpContents[1])
+              uvpContents[1].innerHTML =
+                sections.uniqueValueProposition.highLevelConcept || "";
+          }
+
+          if (sections.unfairAdvantage) {
+            document.querySelector(
+              ".canvas-box.unfair-advantage .content",
+            ).innerHTML = sections.unfairAdvantage.content || "";
+          }
+
+          if (sections.customerSegments) {
+            const customerContents = document.querySelectorAll(
+              ".canvas-box.customer-segments .content",
+            );
+            if (customerContents[0])
+              customerContents[0].innerHTML =
+                sections.customerSegments.content || "";
+            if (customerContents[1])
+              customerContents[1].innerHTML =
+                sections.customerSegments.earlyAdopters || "";
+          }
+
+          if (sections.keyMetrics) {
+            document.querySelector(
+              ".canvas-box.key-metrics .content",
+            ).innerHTML = sections.keyMetrics.content || "";
+          }
+
+          if (sections.channels) {
+            document.querySelector(".canvas-box.channels .content").innerHTML =
+              sections.channels.content || "";
+          }
+
+          if (sections.costStructure) {
+            document.querySelector(
+              ".canvas-box.cost-structure .content",
+            ).innerHTML = sections.costStructure.content || "";
+          }
+
+          if (sections.revenueStreams) {
+            document.querySelector(
+              ".canvas-box.revenue-streams .content",
+            ).innerHTML = sections.revenueStreams.content || "";
+          }
+        }
+
+        // Update placeholder styles
+        document.querySelectorAll(".content").forEach((area) => {
+          if (
+            area.textContent.trim() === "" ||
+            area.textContent === "Click to start writing..."
+          ) {
+            area.textContent = "Click to start writing...";
+            area.style.color = "#9ca3af";
+          } else {
+            area.style.color = "#374151";
+          }
+        });
+      }
+
+      async function downloadAsPDF() {
+        const { jsPDF } = window.jspdf;
+        const canvas = await html2canvas(
+          document.querySelector(".lean-canvas-container"),
+          {
+            scale: 2,
+            useCORS: true,
+            allowTaint: true,
+            backgroundColor: "#ffffff",
+          },
+        );
+
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF("l", "mm", "a4"); // landscape orientation
+
+        const imgWidth = 297; // A4 landscape width in mm
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+        pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+
+        const fileName =
+          document.querySelector('input[placeholder="Startup Name"]').value ||
+          "lean-canvas";
+        pdf.save(`${fileName}-lean-canvas.pdf`);
+
+        document.getElementById("downloadMenu").classList.remove("show");
+      }
+
+      function downloadAsJSON() {
+        const data = getCanvasData();
+        const fileName = data.metadata.designedFor || "lean-canvas";
+
+        // Add export timestamp
+        data.exportedAt = new Date().toISOString();
+        data.version = "1.0";
+
+        const jsonString = JSON.stringify(data, null, 2);
+        const blob = new Blob([jsonString], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${fileName}-lean-canvas.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        document.getElementById("downloadMenu").classList.remove("show");
+      }
+
+      function uploadJSONFile(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          try {
+            const jsonContent = e.target.result;
+            const data = JSON.parse(jsonContent);
+
+            // Validate the data structure
+            if (!data.sections || !data.metadata) {
+              throw new Error(
+                "Invalid file format: Missing required sections or metadata",
+              );
+            }
+
+            setCanvasData(data);
+            alert("JSON file uploaded successfully!");
+          } catch (error) {
+            console.error("Error parsing JSON:", error);
+            alert("Error parsing JSON file. Please check the format.");
+          }
+        };
+        reader.readAsText(file);
+      }
+
+      function parseMarkdownContent(content) {
+        try {
+          const lines = content.split("\n");
+          const data = {
+            metadata: {},
+            sections: {
+              problem: {},
+              solution: {},
+              uniqueValueProposition: {},
+              unfairAdvantage: {},
+              customerSegments: {},
+              keyMetrics: {},
+              channels: {},
+              costStructure: {},
+              revenueStreams: {},
+            },
+          };
+
+          let currentSection = "";
+          let currentSubsection = "";
+          let content_lines = [];
+
+          for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].trim();
+
+            // Parse metadata
+            if (line.includes("**Designed for:**")) {
+              data.metadata.designedFor = line
+                .replace("- **Designed for:**", "")
+                .trim();
+            } else if (line.includes("**Designed by:**")) {
+              data.metadata.designedBy = line
+                .replace("- **Designed by:**", "")
+                .trim();
+            } else if (line.includes("**Date:**")) {
+              data.metadata.date = line.replace("- **Date:**", "").trim();
+            } else if (line.includes("**Version:**")) {
+              data.metadata.version = line.replace("- **Version:**", "").trim();
+            }
+
+            // Parse sections
+            else if (line.startsWith("### 1. Problem")) {
+              currentSection = "problem";
+            } else if (line.startsWith("### 2. Solution")) {
+              currentSection = "solution";
+            } else if (line.startsWith("### 3. Unique Value Proposition")) {
+              currentSection = "uniqueValueProposition";
+            } else if (line.startsWith("### 4. Unfair Advantage")) {
+              currentSection = "unfairAdvantage";
+            } else if (line.startsWith("### 5. Customer Segments")) {
+              currentSection = "customerSegments";
+            } else if (line.startsWith("### 6. Key Metrics")) {
+              currentSection = "keyMetrics";
+            } else if (line.startsWith("### 7. Channels")) {
+              currentSection = "channels";
+            } else if (line.startsWith("### 8. Cost Structure")) {
+              currentSection = "costStructure";
+            } else if (line.startsWith("### 9. Revenue Streams")) {
+              currentSection = "revenueStreams";
+            }
+
+            // Parse subsections
+            else if (line.includes("**Top 3 problems:**")) {
+              currentSubsection = "content";
+              content_lines = [];
+            } else if (line.includes("**Existing Alternatives:**")) {
+              if (currentSection === "problem" && content_lines.length > 0) {
+                data.sections.problem.content = content_lines.join("\n");
+              }
+              currentSubsection = "existingAlternatives";
+              content_lines = [];
+            } else if (
+              line.includes("**Top 3 features:**") ||
+              line.includes("**Single, clear and compelling message:**") ||
+              line.includes("**Can't be easily copied or bought:**") ||
+              line.includes("**Target Customers:**") ||
+              line.includes("**Key activities you measure:**") ||
+              line.includes("**Path to customers:**") ||
+              line.includes("**List your fixed and variable costs:**") ||
+              line.includes("**List your sources of revenue:**")
+            ) {
+              currentSubsection = "content";
+              content_lines = [];
+            } else if (line.includes("**High-Level Concept:**")) {
+              if (
+                currentSection === "uniqueValueProposition" &&
+                content_lines.length > 0
+              ) {
+                data.sections.uniqueValueProposition.content =
+                  content_lines.join("\n");
+              }
+              currentSubsection = "highLevelConcept";
+              content_lines = [];
+            } else if (line.includes("**Early Adopters:**")) {
+              if (
+                currentSection === "customerSegments" &&
+                content_lines.length > 0
+              ) {
+                data.sections.customerSegments.content =
+                  content_lines.join("\n");
+              }
+              currentSubsection = "earlyAdopters";
+              content_lines = [];
+            }
+
+            // Collect content lines
+            else if (
+              currentSection &&
+              currentSubsection &&
+              line &&
+              !line.startsWith("#") &&
+              !line.startsWith("*Generated from") &&
+              !line.startsWith("---")
+            ) {
+              content_lines.push(line);
+            }
+          }
+
+          // Set final content for the last section
+          if (currentSection && currentSubsection && content_lines.length > 0) {
+            if (currentSection === "problem") {
+              data.sections.problem[currentSubsection] =
+                content_lines.join("\n");
+            } else if (currentSection === "uniqueValueProposition") {
+              data.sections.uniqueValueProposition[currentSubsection] =
+                content_lines.join("\n");
+            } else if (currentSection === "customerSegments") {
+              data.sections.customerSegments[currentSubsection] =
+                content_lines.join("\n");
+            } else {
+              data.sections[currentSection].content = content_lines.join("\n");
+            }
+          }
+
+          setCanvasData(data);
+          alert("Markdown file uploaded successfully!");
+        } catch (error) {
+          console.error("Error parsing markdown:", error);
+          alert("Error parsing markdown file. Please check the format.");
+        }
+      }
+
+      // Help popup functions
+      function showHelpPopup() {
+        document.getElementById("helpPopup").classList.add("show");
+        document.body.style.overflow = "hidden"; // Prevent scrolling
+      }
+
+      function hideHelpPopup() {
+        document.getElementById("helpPopup").classList.remove("show");
+        document.body.style.overflow = "auto"; // Restore scrolling
+      }
+
+      // Close popup when clicking outside the content
+      document.addEventListener("DOMContentLoaded", function () {
+        const helpPopup = document.getElementById("helpPopup");
+        helpPopup.addEventListener("click", function (event) {
+          if (event.target === helpPopup) {
+            hideHelpPopup();
+          }
+        });
+
+        // Close popup with Escape key
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "Escape") {
+            hideHelpPopup();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
