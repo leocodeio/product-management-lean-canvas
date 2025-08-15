@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>The Lean Canvas</title>
+    <script
+      async
+      src="https://analytics.leocode.tech/tracker.js"
+      data-website-id="cmed94xmu0006l304yqm6bh98"
+    ></script>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       rel="stylesheet"
@@ -732,9 +737,14 @@
         font-style: italic;
       }
 
+      /* Tablet styles */
       @media (max-width: 1024px) {
+        body {
+          padding: 15px;
+        }
+
         .main-container {
-          margin: 10px;
+          margin: 0;
           border-radius: 6px;
         }
 
@@ -744,76 +754,399 @@
         }
 
         .top-section {
-          height: 400px;
+          grid-template-columns: repeat(2, 1fr);
+          grid-template-rows: repeat(5, 1fr);
+          height: auto;
+          min-height: 600px;
         }
 
         .bottom-section {
-          height: 150px;
+          height: 180px;
         }
 
         .formatting-toolbar {
           padding: 12px 20px;
           gap: 8px;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .toolbar-group {
+          margin-bottom: 8px;
+        }
+
+        .canvas-box {
+          min-height: 100px;
+          padding: 14px;
+        }
+
+        .canvas-box h3 {
+          font-size: 13px;
+        }
+
+        .content {
+          font-size: 12px;
+          min-height: 70px;
+        }
+
+        .help-content {
+          margin: 10px;
+          max-height: 85vh;
         }
       }
 
-      @media (max-width: 768px) {
-        body {
-          padding: 10px;
-        }
-
-        .main-container {
-          margin: 0;
-        }
-
+      /* Small tablet styles */
+      @media (max-width: 820px) {
         .top-section {
           grid-template-columns: 1fr;
-          grid-template-rows: repeat(10, 1fr);
+          grid-template-rows: repeat(10, auto);
           height: auto;
-          min-height: 800px;
+          min-height: 700px;
+          gap: 3px;
         }
 
         .bottom-section {
           grid-template-columns: 1fr;
-          grid-template-rows: 1fr 1fr;
+          grid-template-rows: auto auto;
           height: auto;
-          min-height: 300px;
+          min-height: 200px;
+          gap: 3px;
         }
 
         .canvas-box {
+          min-height: 90px;
+          border-right: none !important;
+        }
+
+        .meta-fields {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 15px;
+        }
+
+        .help-btn {
+          position: static;
+          margin: 10px 0;
+          align-self: flex-start;
+        }
+
+        .canvas-header {
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+        }
+      }
+
+      /* Mobile styles */
+      @media (max-width: 768px) {
+        body {
+          padding: 8px;
+        }
+
+        .main-container {
+          margin: 0;
+          border-radius: 4px;
+        }
+
+        .canvas-header {
+          padding: 15px;
+        }
+
+        .lean-canvas-container {
+          padding: 15px;
+        }
+
+        .top-section {
+          grid-template-columns: 1fr;
+          grid-template-rows: repeat(10, auto);
+          height: auto;
+          min-height: 800px;
+          gap: 2px;
+        }
+
+        .bottom-section {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto auto;
+          height: auto;
+          min-height: 300px;
+          gap: 2px;
+        }
+
+        .canvas-box {
+          min-height: 100px;
+          border-right: none !important;
+          padding: 12px;
+        }
+
+        .canvas-box h3 {
+          font-size: 12px;
+          margin-bottom: 6px;
+        }
+
+        .canvas-box .description {
+          font-size: 10px;
+          margin-bottom: 8px;
+        }
+
+        .content {
+          font-size: 12px;
           min-height: 80px;
-          border-right: none;
+          padding: 8px;
         }
 
         .meta-fields {
           grid-template-columns: 1fr;
-          gap: 15px;
+          gap: 12px;
+        }
+
+        .field label {
+          font-size: 12px;
+        }
+
+        .field input {
+          padding: 10px 14px;
+          font-size: 13px;
         }
 
         .formatting-toolbar {
+          padding: 10px 15px;
+          gap: 6px;
+          flex-wrap: wrap;
           justify-content: center;
-          padding: 15px;
         }
 
         .toolbar-group {
+          margin-bottom: 6px;
           flex-wrap: wrap;
+          justify-content: center;
+          gap: 4px;
+        }
+
+        .toolbar-btn {
+          padding: 8px 10px;
+          font-size: 13px;
+          min-width: 36px;
+        }
+
+        .font-size-select {
+          padding: 8px 10px;
+          font-size: 12px;
+        }
+
+        .color-picker {
+          width: 32px;
+          height: 32px;
         }
 
         .canvas-header h1 {
-          font-size: 20px;
+          font-size: 18px;
+          margin-bottom: 15px;
         }
 
         .header-credits {
           flex-direction: column;
           gap: 4px;
-          font-size: 12px;
+          font-size: 11px;
+          text-align: center;
         }
 
         .help-btn {
-          top: 80px;
-          right: 15px;
+          position: static;
+          margin: 10px 0;
           padding: 8px 12px;
+          font-size: 12px;
+          align-self: center;
+        }
+
+        .help-content {
+          margin: 5px;
+          padding: 20px;
+          max-height: 90vh;
+        }
+
+        .help-content h2 {
+          font-size: 20px;
+        }
+
+        .help-content h3 {
+          font-size: 16px;
+        }
+
+        .help-content p,
+        .help-content li {
           font-size: 13px;
+        }
+
+        .feature-grid {
+          grid-template-columns: 1fr;
+          gap: 10px;
+        }
+
+        .feature-item {
+          padding: 12px;
+        }
+
+        .feature-item h4 {
+          font-size: 14px;
+        }
+
+        .feature-item p {
+          font-size: 12px;
+        }
+      }
+
+      /* Extra small mobile styles */
+      @media (max-width: 480px) {
+        body {
+          padding: 5px;
+        }
+
+        .canvas-header {
+          padding: 12px;
+        }
+
+        .lean-canvas-container {
+          padding: 12px;
+        }
+
+        .canvas-box {
+          padding: 10px;
+          min-height: 90px;
+        }
+
+        .canvas-box h3 {
+          font-size: 11px;
+        }
+
+        .canvas-box .description {
+          font-size: 9px;
+        }
+
+        .content {
+          font-size: 11px;
+          min-height: 70px;
+          padding: 6px;
+        }
+
+        .field input {
+          padding: 8px 12px;
+          font-size: 12px;
+        }
+
+        .toolbar-btn {
+          padding: 6px 8px;
+          font-size: 12px;
+          min-width: 32px;
+        }
+
+        .canvas-header h1 {
+          font-size: 16px;
+        }
+
+        .header-credits {
+          font-size: 10px;
+        }
+
+        .help-content {
+          padding: 15px;
+        }
+
+        .help-content h2 {
+          font-size: 18px;
+        }
+
+        .help-content h3 {
+          font-size: 14px;
+        }
+
+        .help-content p,
+        .help-content li {
+          font-size: 12px;
+        }
+      }
+
+      /* Touch-friendly improvements for mobile */
+      @media (max-width: 768px) {
+        .toolbar-btn,
+        .help-btn,
+        .dropdown-content button {
+          min-height: 44px;
+          min-width: 44px;
+        }
+
+        .field input {
+          min-height: 44px;
+        }
+
+        .content {
+          line-height: 1.5;
+          -webkit-text-size-adjust: 100%;
+        }
+
+        /* Prevent horizontal scrolling */
+        .main-container {
+          overflow-x: hidden;
+        }
+
+        /* Better touch targets */
+        .color-picker {
+          min-height: 44px;
+          min-width: 44px;
+        }
+
+        .font-size-select {
+          min-height: 44px;
+        }
+
+        /* Improved dropdown for mobile */
+        .dropdown-content {
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 90%;
+          max-width: 300px;
+          border-radius: 12px;
+          margin-top: 0;
+        }
+
+        .dropdown-content button {
+          padding: 16px;
+          font-size: 16px;
+        }
+      }
+
+      /* Landscape mobile orientation */
+      @media (max-width: 768px) and (orientation: landscape) {
+        .top-section {
+          grid-template-columns: repeat(2, 1fr);
+          grid-template-rows: repeat(5, auto);
+          min-height: 500px;
+        }
+
+        .bottom-section {
+          grid-template-columns: repeat(2, 1fr);
+          grid-template-rows: auto;
+          min-height: 150px;
+        }
+
+        .canvas-box {
+          min-height: 80px;
+        }
+
+        .help-content {
+          max-height: 80vh;
+        }
+      }
+
+      /* High DPI displays */
+      @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+        .canvas-box {
+          border-width: 0.5px;
+        }
+
+        .top-section,
+        .bottom-section {
+          border-width: 1px;
         }
       }
 
