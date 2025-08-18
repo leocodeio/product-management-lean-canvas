@@ -673,6 +673,12 @@
         background: #f9fafb;
       }
 
+      .dropdown-content button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        background: #f3f4f6;
+      }
+
       .dropdown-content button:first-child {
         border-radius: 7px 7px 0 0;
       }
@@ -692,17 +698,17 @@
       .top-section {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
-        grid-template-rows: 1fr 1fr;
+        grid-template-rows: auto auto;
         gap: 2px;
         margin-bottom: 2px;
-        height: 600px;
+        min-height: 400px;
       }
 
       .bottom-section {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 2px;
-        height: 200px;
+        min-height: 150px;
       }
 
       .canvas-box {
@@ -713,6 +719,7 @@
         position: relative;
         display: flex;
         flex-direction: column;
+        min-height: 120px;
       }
 
       .canvas-box:hover {
@@ -767,7 +774,7 @@
 
       .content {
         flex: 1;
-        min-height: 60px;
+        min-height: 80px;
         padding: 4px;
         border: 2px solid #cfcfcf;
         border-radius: 10px;
@@ -775,6 +782,9 @@
         font-size: 13px;
         line-height: 1.4;
         cursor: text;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        resize: vertical;
       }
 
       .content:focus {
@@ -807,13 +817,12 @@
 
         .top-section {
           grid-template-columns: repeat(2, 1fr);
-          grid-template-rows: repeat(5, 1fr);
-          height: auto;
-          min-height: 600px;
+          grid-template-rows: repeat(5, auto);
+          min-height: 400px;
         }
 
         .bottom-section {
-          height: 180px;
+          min-height: 150px;
         }
 
         .formatting-toolbar {
@@ -852,16 +861,14 @@
         .top-section {
           grid-template-columns: 1fr;
           grid-template-rows: repeat(10, auto);
-          height: auto;
-          min-height: 700px;
+          min-height: 500px;
           gap: 3px;
         }
 
         .bottom-section {
           grid-template-columns: 1fr;
           grid-template-rows: auto auto;
-          height: auto;
-          min-height: 200px;
+          min-height: 180px;
           gap: 3px;
         }
 
@@ -918,16 +925,14 @@
         .top-section {
           grid-template-columns: 1fr;
           grid-template-rows: repeat(10, auto);
-          height: auto;
-          min-height: 800px;
+          min-height: 600px;
           gap: 2px;
         }
 
         .bottom-section {
           grid-template-columns: 1fr;
           grid-template-rows: auto auto;
-          height: auto;
-          min-height: 300px;
+          min-height: 200px;
           gap: 2px;
         }
 
@@ -1132,56 +1137,101 @@
         }
       }
 
-      /* Touch-friendly improvements for mobile */
-      @media (max-width: 768px) {
-        .toolbar-btn,
-        .help-btn,
-        .github-btn,
-        .dropdown-content button {
-          min-height: 44px;
-          min-width: 44px;
+      /* PDF Export specific styles */
+      @media print {
+        .formatting-toolbar,
+        .help-popup,
+        .dropdown-content {
+          display: none !important;
         }
 
-        .field input {
-          min-height: 44px;
+        .main-container {
+          max-width: none !important;
+          margin: 0 !important;
+          box-shadow: none !important;
+          border: none !important;
         }
 
         .content {
-          line-height: 1.5;
-          -webkit-text-size-adjust: 100%;
+          resize: none !important;
+          overflow: visible !important;
+          page-break-inside: avoid;
         }
 
-        /* Prevent horizontal scrolling */
-        .main-container {
-          overflow-x: hidden;
+        .canvas-box {
+          page-break-inside: avoid;
+          break-inside: avoid;
         }
 
-        /* Better touch targets */
-        .color-picker {
-          min-height: 44px;
-          min-width: 44px;
+        .top-section,
+        .bottom-section {
+          page-break-inside: avoid;
         }
+      }
 
-        .font-size-select {
-          min-height: 44px;
-        }
+      /* Ensure high quality rendering for canvas export */
+      .pdf-export-mode {
+        -webkit-print-color-adjust: exact !important;
+        color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
 
-        /* Improved dropdown for mobile */
-        .dropdown-content {
-          position: fixed;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 90%;
-          max-width: 300px;
-          border-radius: 12px;
-          margin-top: 0;
-        }
+      .pdf-export-mode .content {
+        min-height: 60px !important;
+        resize: none !important;
+        overflow: visible !important;
+      }
 
-        .dropdown-content button {
-          padding: 16px;
-          font-size: 16px;
-        }
+      .pdf-export-mode .formatting-toolbar {
+        display: none !important;
+      }
+      .toolbar-btn,
+      .help-btn,
+      .github-btn,
+      .dropdown-content button {
+        min-height: 44px;
+        min-width: 44px;
+      }
+
+      .field input {
+        min-height: 44px;
+      }
+
+      .content {
+        line-height: 1.5;
+        -webkit-text-size-adjust: 100%;
+      }
+
+      /* Prevent horizontal scrolling */
+      .main-container {
+        overflow-x: hidden;
+      }
+
+      /* Better touch targets */
+      .color-picker {
+        min-height: 44px;
+        min-width: 44px;
+      }
+
+      .font-size-select {
+        min-height: 44px;
+      }
+
+      /* Improved dropdown for mobile */
+      .dropdown-content {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        max-width: 300px;
+        border-radius: 12px;
+        margin-top: 0;
+      }
+
+      .dropdown-content button {
+        padding: 16px;
+        font-size: 16px;
       }
 
       /* Landscape mobile orientation */
@@ -1189,13 +1239,13 @@
         .top-section {
           grid-template-columns: repeat(2, 1fr);
           grid-template-rows: repeat(5, auto);
-          min-height: 500px;
+          min-height: 350px;
         }
 
         .bottom-section {
           grid-template-columns: repeat(2, 1fr);
           grid-template-rows: auto;
-          min-height: 150px;
+          min-height: 120px;
         }
 
         .canvas-box {
@@ -1262,6 +1312,55 @@
         50% {
           transform: scale(1.1);
         }
+      }
+
+      /* PDF Export specific styles */
+      @media print {
+        .formatting-toolbar,
+        .help-popup,
+        .dropdown-content {
+          display: none !important;
+        }
+
+        .main-container {
+          max-width: none !important;
+          margin: 0 !important;
+          box-shadow: none !important;
+          border: none !important;
+        }
+
+        .content {
+          resize: none !important;
+          overflow: visible !important;
+          page-break-inside: avoid;
+        }
+
+        .canvas-box {
+          page-break-inside: avoid;
+          break-inside: avoid;
+        }
+
+        .top-section,
+        .bottom-section {
+          page-break-inside: avoid;
+        }
+      }
+
+      /* Ensure high quality rendering for canvas export */
+      .pdf-export-mode {
+        -webkit-print-color-adjust: exact !important;
+        color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .pdf-export-mode .content {
+        min-height: 60px !important;
+        resize: none !important;
+        overflow: visible !important;
+      }
+
+      .pdf-export-mode .formatting-toolbar {
+        display: none !important;
       }
 
       @media (max-width: 768px) {
@@ -1864,6 +1963,12 @@
             }
           });
 
+          // Auto-resize content area based on content
+          area.addEventListener("input", function () {
+            this.style.height = "auto";
+            this.style.height = Math.max(80, this.scrollHeight) + "px";
+          });
+
           area.addEventListener("keyup", updateToolbarButtons);
           area.addEventListener("mouseup", updateToolbarButtons);
 
@@ -2157,31 +2262,204 @@
       }
 
       async function downloadAsPDF() {
-        const { jsPDF } = window.jspdf;
-        const canvas = await html2canvas(
-          document.querySelector(".lean-canvas-container"),
-          {
-            scale: 2,
+        try {
+          // Show loading state
+          const downloadBtn = document.querySelector(
+            '[onclick="downloadAsPDF()"]'
+          );
+          const originalText = downloadBtn.innerHTML;
+          downloadBtn.innerHTML =
+            '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
+          downloadBtn.disabled = true;
+
+          const { jsPDF } = window.jspdf;
+
+          // Get the canvas container
+          const canvasContainer = document.querySelector(
+            ".lean-canvas-container"
+          );
+          const mainContainer = document.querySelector(".main-container");
+
+          // Temporarily hide elements that shouldn't be in PDF
+          const elementsToHide = [
+            ".formatting-toolbar",
+            ".help-popup",
+            ".dropdown-content",
+          ];
+
+          const hiddenElements = [];
+          elementsToHide.forEach((selector) => {
+            const elements = document.querySelectorAll(selector);
+            elements.forEach((el) => {
+              if (el.style.display !== "none") {
+                hiddenElements.push(el);
+                el.style.display = "none";
+              }
+            });
+          });
+
+          // Temporarily adjust styles for PDF export
+          const originalStyles = {};
+
+          // Store and modify container styles for better PDF rendering
+          originalStyles.mainContainer = mainContainer.style.cssText;
+          mainContainer.style.maxWidth = "none";
+          mainContainer.style.margin = "0";
+          mainContainer.style.boxShadow = "none";
+          mainContainer.style.border = "none";
+
+          // Ensure content areas are properly sized
+          const contentAreas = document.querySelectorAll(".content");
+          contentAreas.forEach((area, index) => {
+            originalStyles[`content_${index}`] = area.style.cssText;
+            // Ensure minimum height for empty content
+            if (
+              area.textContent.trim() === "" ||
+              area.textContent === "Click to start writing..."
+            ) {
+              area.style.minHeight = "60px";
+            }
+            // Remove resize handles for PDF
+            area.style.resize = "none";
+          });
+
+          // Wait for any dynamic content to settle
+          await new Promise((resolve) => setTimeout(resolve, 100));
+
+          // Generate high-quality canvas
+          const canvas = await html2canvas(mainContainer, {
+            scale: 3, // Higher scale for better quality
             useCORS: true,
             allowTaint: true,
             backgroundColor: "#ffffff",
+            width: mainContainer.scrollWidth,
+            height: mainContainer.scrollHeight,
+            scrollX: 0,
+            scrollY: 0,
+            windowWidth: window.innerWidth,
+            windowHeight: window.innerHeight,
+            logging: false,
+            onclone: (clonedDoc) => {
+              // Additional cleanup in cloned document
+              const clonedFormatting = clonedDoc.querySelector(
+                ".formatting-toolbar"
+              );
+              if (clonedFormatting) clonedFormatting.remove();
+
+              // Ensure all content is visible in clone
+              const clonedContent = clonedDoc.querySelectorAll(".content");
+              clonedContent.forEach((area) => {
+                area.style.overflow = "visible";
+                area.style.resize = "none";
+              });
+            },
+          });
+
+          // Restore original styles
+          mainContainer.style.cssText = originalStyles.mainContainer;
+          contentAreas.forEach((area, index) => {
+            area.style.cssText = originalStyles[`content_${index}`];
+          });
+
+          // Restore hidden elements
+          hiddenElements.forEach((el) => {
+            el.style.display = "";
+          });
+
+          const imgData = canvas.toDataURL("image/png", 1.0);
+
+          // Calculate optimal PDF dimensions
+          const canvasWidth = canvas.width;
+          const canvasHeight = canvas.height;
+          const aspectRatio = canvasHeight / canvasWidth;
+
+          // Determine orientation and page size based on aspect ratio
+          let pdf;
+          let pageWidth, pageHeight;
+
+          if (aspectRatio > 1.4) {
+            // Very tall content - use portrait with potential multi-page
+            pdf = new jsPDF("p", "mm", "a4");
+            pageWidth = 210; // A4 portrait width
+            pageHeight = 297; // A4 portrait height
+          } else {
+            // Wide or moderately tall content - use landscape
+            pdf = new jsPDF("l", "mm", "a4");
+            pageWidth = 297; // A4 landscape width
+            pageHeight = 210; // A4 landscape height
           }
-        );
 
-        const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF("l", "mm", "a4"); // landscape orientation
+          // Add margins
+          const margin = 10;
+          const printableWidth = pageWidth - 2 * margin;
+          const printableHeight = pageHeight - 2 * margin;
 
-        const imgWidth = 297; // A4 landscape width in mm
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+          // Calculate scaled dimensions
+          let imgWidth = printableWidth;
+          let imgHeight = printableWidth * aspectRatio;
 
-        pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+          // If image is too tall for one page, scale it down to fit
+          if (imgHeight > printableHeight) {
+            imgHeight = printableHeight;
+            imgWidth = imgHeight / aspectRatio;
+          }
 
-        const fileName =
-          document.querySelector('input[placeholder="Startup Name"]').value ||
-          "lean-canvas";
-        pdf.save(`${fileName}-lean-canvas.pdf`);
+          // Center the image on the page
+          const x = (pageWidth - imgWidth) / 2;
+          const y = (pageHeight - imgHeight) / 2;
 
-        document.getElementById("downloadMenu").classList.remove("show");
+          // Add the image to PDF
+          pdf.addImage(imgData, "PNG", x, y, imgWidth, imgHeight, "", "FAST");
+
+          // Add metadata to PDF
+          const metadata = {
+            title:
+              document.querySelector('input[placeholder="Startup Name"]')
+                .value || "Lean Canvas",
+            author:
+              document.querySelector('input[placeholder="Name1, Name2, ..."]')
+                .value || "Unknown",
+            subject: "Lean Canvas Business Model",
+            keywords: "lean canvas, business model, startup, strategy",
+            creator: "Lean Canvas Tool",
+            producer: "html2canvas + jsPDF",
+          };
+
+          pdf.setProperties(metadata);
+
+          // Generate filename with timestamp
+          const now = new Date();
+          const timestamp = now.toISOString().split("T")[0]; // YYYY-MM-DD format
+          const fileName = metadata.title
+            .replace(/[^a-z0-9]/gi, "_")
+            .toLowerCase();
+          const fullFileName = `${fileName}_lean_canvas_${timestamp}.pdf`;
+
+          // Save the PDF
+          pdf.save(fullFileName);
+
+          // Restore button state
+          downloadBtn.innerHTML = originalText;
+          downloadBtn.disabled = false;
+
+          // Close dropdown menu
+          document.getElementById("downloadMenu").classList.remove("show");
+
+          // Show success message
+          console.log(`PDF exported successfully: ${fullFileName}`);
+        } catch (error) {
+          console.error("PDF export failed:", error);
+
+          // Restore button state on error
+          const downloadBtn = document.querySelector(
+            '[onclick="downloadAsPDF()"]'
+          );
+          downloadBtn.innerHTML =
+            '<i class="fas fa-file-pdf"></i> Download PDF';
+          downloadBtn.disabled = false;
+
+          alert("Failed to generate PDF. Please try again.");
+        }
       }
 
       function downloadAsJSON() {
